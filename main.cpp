@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
-#include <string>
+#include <string.h>
 
 
 #include "vex.h"
@@ -37,7 +37,7 @@ motor rightMotorA = motor(PORT10, 1, true);
 motor rightMotorB = motor(PORT11, 1, true);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 200, 173, 76, mm, 1);
-colorsensor Color9 = colorsensor(PORT9);
+bumper Bumper9 = bumper(PORT9);
 #pragma endregion VEXcode Generated Robot Configuration
 
 // Include the IQ Library
@@ -137,15 +137,14 @@ void onBumperTouch(){
          Brain.Screen.print("Hey! Move!");
         Drivetrain.drive(reverse);
         wait(3,seconds);
-        startMove();
          secondTime = true;
          gearChange();
     }
 
   }else{
       hasStarted = true; 
-    Brain.Screen.print("Goodbye!"); 
     Brain.Screen.clearLine(1);
+    Brain.Screen.print("Goodbye!"); 
     wait(1,seconds);
   
     Brain.Screen.print("I am Speed!");
@@ -164,9 +163,13 @@ Brain.Screen.clearLine(1);
   Brain.Screen.print("Press the bumper.");
   
   Bumper12.pressed(onBumperTouch);
+  Bumper9.pressed(back);
+  
   return 0;
 }
-
+void back(){
+  Drivetrain.drive(reverse);
+}
 
 int main() {
   whenStarted1();
